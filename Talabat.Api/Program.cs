@@ -1,11 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using Talabat.Repository;
 using Talabat.Repository.Data;
 
 namespace Talabat.Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,21 @@ namespace Talabat.Api
 
             var app = builder.Build();
 
+            using var scope = app.Services.CreateScope();
+
+            var services = scope.ServiceProvider;
+            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+            try
+            {
+                var Context = services.GetRequiredService<StoreContext>();
+                await Context.Database.MigrateAsync(); // apply migration   
+                await StoreContextSeed.SeedAsync(Context); // if date added made to the database, it will not add it again
+            }
+            catch (Exception ex)
+            {
+                var logger = services.GetRequiredService<ILogger<Program>>();
+                logger.LogError(ex, "An error occurred while migrating the database.");
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

@@ -15,8 +15,8 @@ namespace Talabat.Repository.Data
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
         }
-        DbSet<Product> Products { get; set; }
-        DbSet<ProductBrand> productBrands { get; set; }
-        DbSet<ProductType> productTypes { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductBrand> productBrands { get; set; }
+        public DbSet<ProductType> productTypes { get; set; }
     }
 }
