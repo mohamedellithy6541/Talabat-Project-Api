@@ -32,7 +32,6 @@ namespace Talabat.Repository
                         await context.productTypes.AddAsync(type);
                     }
                     await context.SaveChangesAsync();
-
                 }
             }
 
@@ -47,7 +46,6 @@ namespace Talabat.Repository
                         await context.Products.AddAsync(product);
                     }
                     await context.SaveChangesAsync();
-
                 }
             }
         }
